@@ -1,4 +1,4 @@
-source 'https://git.coding.net/CocoaPods/Specs.git'
+source 'https://github.com/CocoaPods/Specs.git'
 platform :osx, '10.11'
 
 target '12306ForMac' do

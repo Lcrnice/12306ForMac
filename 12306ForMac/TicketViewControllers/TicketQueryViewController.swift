@@ -268,6 +268,11 @@ class TicketQueryViewController: BaseViewController {
                 }
             }
         }
+        
+        // if it's from auto operation, continue query tickets.
+        if autoQuery {
+            clickQueryTicket(nil)
+        }
     }
     
     func recvLogoutNotification(_ notification: Notification) {
@@ -614,9 +619,15 @@ class TicketQueryViewController: BaseViewController {
         let failHandler = {(error:NSError)->() in
             self.stopLoadingTip()
             
-            if error.code == ServiceError.Code.checkUserFailed.rawValue {
-                notificationCenter.post(name: Notification.Name.App.DidLogin, object: nil)
-            }else{
+            if error.code == ServiceError.Code.checkUserFailed.rawValue ||
+                error.code == ServiceError.Code.autoSumbitOrderFailed.rawValue {
+                // if it's auto opertion, continue login.
+                if self.autoQuery {
+                    notificationCenter.post(name: Notification.Name.App.DidAutoLogin, object: nil)
+                } else {
+                    notificationCenter.post(name: Notification.Name.App.DidLogin, object: nil)
+                }
+            } else{
                 self.showTip(translate(error))
             }
         }
