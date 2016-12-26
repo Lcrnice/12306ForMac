@@ -174,6 +174,8 @@ class SubmitWindowController: BaseWindowController{
             if ifShowRandCode {
                 self.freshImage()
             }
+            self.dismissWithModalResponse(NSModalResponseCancel)
+            NotificationCenter.default.post(name: Notification.Name.App.DidAddDefaultPassenger, object:nil)
         }
         
         let successHandler = {
